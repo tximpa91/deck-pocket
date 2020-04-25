@@ -13,12 +13,14 @@ class FireBaseAuth(BasePermission):
         try:
             if 'Firebase-User' in headers:
                 uid = headers.get('Firebase-User')
-                user = auth.get_user(uid)
-                return DeckPocketUser().create_or_login(user.uid)
+                if DeckPocketUser.user_exists(uid):
+                    return True
+                else:
+                    user = auth.get_user(uid)
+                    return DeckPocketUser().create_or_login(user.uid)
             return False
 
         except Exception as error:
-            print(str(f"{error} me lanzo"))
             return False
 
     def has_permission(self, request, view):

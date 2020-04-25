@@ -33,12 +33,20 @@ class DeckPocketUser(DefaultDate):
     uid = models.CharField(max_length=255, db_column='Uid', db_index=True)
 
     @staticmethod
+    def user_exists(uid=None):
+        try:
+            DeckPocketUser.objects.get(uid=uid)
+            return True
+        except Exception as error:
+            return False
+
+
+    @staticmethod
     def create_or_login(uid=None):
         try:
             DeckPocketUser.objects.get_or_create(uid=uid)
             return True
         except Exception as error:
-            print(str(error))
             return False
 
     class Meta:
