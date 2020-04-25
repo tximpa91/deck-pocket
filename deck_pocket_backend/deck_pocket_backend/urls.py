@@ -16,7 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from graphene_django.views import GraphQLView
+from deck_pocket.graphql_schema.card_schema import schema
+from deck_pocket.auth_ql.oauth_graphql import PrivateGraphQLView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('graphql', PrivateGraphQLView.as_view(graphiql=True, schema=schema)),
 ]

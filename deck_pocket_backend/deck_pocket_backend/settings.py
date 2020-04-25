@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import firebase_admin
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'oauth2_provider',
     'sslserver',
-    'deck_pocket'
+    'deck_pocket',
+    'graphene_django'
 ]
 
 MIDDLEWARE = [
@@ -84,9 +85,9 @@ WSGI_APPLICATION = 'deck_pocket_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': 'DeckPocket',
+        'USER': 'postgres',
+        'PASSWORD': 'docker',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -139,7 +140,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.permissions.IsAuthenticated',
 
     ],
 
@@ -172,8 +172,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_PASSWORD = ''  # my gmail password
-EMAIL_HOST_USER = '@gmail.com'  # my gmail username
+EMAIL_HOST_PASSWORD = '50502347m20330309'  # my gmail password
+EMAIL_HOST_USER = 'luisparada364@gmail.com'  # my gmail username
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
+FIREBASE_APP = firebase_admin.initialize_app()
+GRAPHENE = {
+    'SCHEMA': 'deck_pocket.graphql_schema.card_schema'
+}
