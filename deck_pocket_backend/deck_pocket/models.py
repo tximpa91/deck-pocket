@@ -85,8 +85,8 @@ class Card(DefaultDate):
 class Deck(DefaultDate):
     deck_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(db_column='name', max_length=255, blank=True, null=True)
-    user = models.ForeignKey('DeckPocketUser', models.CASCADE,
-                             related_name='deck_user', blank=True, null=True, db_column='campaign_id')
+    user_deck = models.ForeignKey('DeckPocketUser', models.CASCADE,
+                                  related_name='deck_user', blank=True, null=True, db_column='user_deck')
     deck_type = models.CharField(max_length=255, blank=True, null=True)
     models.ManyToManyField('Card', db_column='card',
                            db_table='DeckCard')
