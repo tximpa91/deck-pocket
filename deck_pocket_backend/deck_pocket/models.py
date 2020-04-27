@@ -35,19 +35,17 @@ class DeckPocketUser(DefaultDate):
     @staticmethod
     def user_exists(uid=None):
         try:
-            DeckPocketUser.objects.get(uid=uid)
-            return True
+            return True, DeckPocketUser.objects.get(uid=uid)
         except Exception as error:
-            return False
+            return False, None
 
 
     @staticmethod
     def create_or_login(uid=None):
         try:
-            DeckPocketUser.objects.get_or_create(uid=uid)
-            return True
+            return True, DeckPocketUser.objects.get_or_create(uid=uid)
         except Exception as error:
-            return False
+            return False, None
 
     class Meta:
         db_table = 'DeckPocketUser'

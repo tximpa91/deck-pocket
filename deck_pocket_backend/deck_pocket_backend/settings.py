@@ -179,5 +179,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 FIREBASE_APP = firebase_admin.initialize_app()
 GRAPHENE = {
-    'SCHEMA': 'deck_pocket.graphql_schema.card_schema'
+    'MIDDLEWARE': ['deck_pocket.custom_auth.auth_middleware.AuthorizationMiddleware']
 }
