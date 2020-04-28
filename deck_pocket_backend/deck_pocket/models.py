@@ -1,8 +1,9 @@
 from django.db import models
 from oauth2_provider.models import AbstractApplication
 from django.contrib.postgres.fields import JSONField
-import uuid
+from graphql import GraphQLError
 from django.utils import timezone
+import uuid
 
 
 # Create your models here.
@@ -84,6 +85,17 @@ class Card(DefaultDate):
     full_art = models.BooleanField(default=False, blank=True, null=True)
     textless = models.BooleanField(default=False, blank=True, null=True)
 
+    @staticmethod
+    def get_cards(cards):
+        try:
+            result = []
+            for card in cards:
+                result.append(Card.objects.get(card_id=str(card)))
+            return result
+        except Card.DoesNotExist:
+            raise GraphQLError(f"Card: {card}, doesnt exists")
+
+
     class Meta:
         db_table = "DeckPocket_Card"
 
@@ -94,8 +106,7 @@ class Deck(DefaultDate):
     user_deck = models.ForeignKey('DeckPocketUser', models.CASCADE,
                                   related_name='deck_user', blank=True, null=True, db_column='user_deck')
     deck_type = models.CharField(max_length=255, blank=True, null=True)
-    models.ManyToManyField('Card', db_column='card',
-                           db_table='DeckCard')
+    cards = models.ManyToManyField('Card', db_column='cards', related_name='deck_cards', db_table='DeckCard')
 
     class Meta:
         db_table = "Deck"

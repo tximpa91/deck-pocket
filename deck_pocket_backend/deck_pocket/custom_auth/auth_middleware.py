@@ -1,5 +1,6 @@
 class AuthorizationMiddleware(object):
 
     def resolve(self, next, root, info, **args):
-        args['user'] = info.context.data.pop('user')
+        user = info.context.data.get('user')
+        args['user'] = user
         return next(root, info, **args)
