@@ -5,6 +5,5 @@ import graphene
 
 
 class CardSchema(DjangoObjectType):
-
     class Meta:
         model = Card
