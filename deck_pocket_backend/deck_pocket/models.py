@@ -83,6 +83,7 @@ class Card(DefaultDate):
     rarity = models.CharField(max_length=255, blank=True, null=True)
     full_art = models.BooleanField(default=False, blank=True, null=True)
     textless = models.BooleanField(default=False, blank=True, null=True)
+    price = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True, default=0)
 
     @staticmethod
     def get_cards(cards):

@@ -22,6 +22,7 @@ class Command(BaseCommand):
                         #     card[key] = d
                         # else:
                         card[key] = data_d.get(key, None)
+                    card['price'] = 0
                     Card(**card).save()
 
             except Exception as error:

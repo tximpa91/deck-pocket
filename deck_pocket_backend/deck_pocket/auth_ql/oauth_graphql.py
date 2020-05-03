@@ -17,5 +17,5 @@ class PrivateGraphQLView(GraphQLView):
         view = super(PrivateGraphQLView, cls).as_view(*args, **kwargs)
         view = permission_classes((TokenHasReadWriteScope, FireBaseAuth,))(view)
         view = authentication_classes((OAuth2Authentication,))(view)
-        view = api_view(['POST', 'GET', 'PUT'])(view)
+        view = api_view(['POST', 'GET'])(view)
         return view

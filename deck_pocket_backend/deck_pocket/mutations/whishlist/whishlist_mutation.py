@@ -16,7 +16,7 @@ class CreateOrUpdateWhishList(Mutation):
     def mutate(self, info, cards, **kwargs):
         """Create or update a whishlist if deck_id is not null if for update"""
         user = kwargs.pop('user')
-        whishlist = Whishlist.objects.get_or_create(user_whishlist=user)
+        whishlist = Whishlist.objects.get_or_create(user_whishlist=user)[0]
         # Associate cards to a Whishlist
         if cards:
             whishlist.cards.clear()

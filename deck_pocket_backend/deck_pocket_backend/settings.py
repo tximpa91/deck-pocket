@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import firebase_admin
+import logging
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -26,7 +27,6 @@ SECRET_KEY = '9uox7#=-+mn@(uh^ehzpa$*ylbb)g#7xs6dlee1y5+n%(d7azw'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -78,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'deck_pocket_backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -92,7 +91,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -112,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -128,7 +125,6 @@ USE_TZ = True
 DATETIME_FORMAT = "d-m-Y H:i:s"
 DATE_FORMAT = "d-m-Y"
 TIME_FORMAT = "H:i:s"
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -159,7 +155,6 @@ OAUTH2_PROVIDER = {
 
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
 
-
     'ACCESS_TOKEN_EXPIRE_SECONDS': 3600,
     'REFRESH_TOKEN_GRACE_PERIOD_SECONDS': 15
 
@@ -180,4 +175,36 @@ SERVER_EMAIL = EMAIL_HOST_USER
 FIREBASE_APP = firebase_admin.initialize_app()
 GRAPHENE = {
     'MIDDLEWARE': ['deck_pocket.custom_auth.auth_middleware.AuthorizationMiddleware']
+}
+
+
+class GraphQLLogFilter(logging.Filter):
+    def filter(self, record):
+        if 'graphql.error.located_error.GraphQLLocatedError:' in record.msg:
+            return False
+        return True
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    # Prevent graphql exception from displaying in console
+    'filters': {
+        'graphql_log_filter': {
+            '()': GraphQLLogFilter,
+        }
+    },
+    'loggers': {
+        'graphql.execution.utils': {
+            'level': 'WARNING',
+            'handlers': ['console'],
+            'filters': ['graphql_log_filter'],
+        },
+    },
 }
