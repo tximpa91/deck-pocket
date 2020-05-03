@@ -1,8 +1,8 @@
 from graphene import Mutation, String, Field, List
 from deck_pocket.graphql_schema.deck.deck_schema import DeckSchema
-from deck_pocket.models import Card, Deck, Whishlist, MyCards
+from deck_pocket.models import Card, Deck
 from django.db import transaction
-from deck_pocket.graphql_fields.custom_fields import DeckDictionary
+
 
 
 class CreateOrUpdateDeck(Mutation):
@@ -11,7 +11,7 @@ class CreateOrUpdateDeck(Mutation):
         deck_id = String(required=False)
         name = String(required=True)
         deck_type = String(required=True)
-        cards = List(DeckDictionary)
+        cards = List(String)
 
     # The class attributes define the response of the mutation
     deck = Field(DeckSchema)
@@ -33,10 +33,7 @@ class CreateOrUpdateDeck(Mutation):
             deck.save()
         # Associate cards to a deck
         if cards:
-            cards_to_find = [card.get('card_id') for card in cards]
-            cards_for_create_or_update = Card.get_cards(cards_to_find)
+            cards_for_create_or_update = Card.get_cards(cards)
             for card in cards_for_create_or_update:
                 deck.cards.add(card)
-            wishlist, my_cards = Deck.get_ownership(cards_to_find)
-
         return CreateOrUpdateDeck(deck=deck)

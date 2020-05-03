@@ -138,28 +138,6 @@ class Whishlist(DefaultDate):
                                   related_name='user_whishlist', blank=True, null=True, db_column='user_whishlist')
     cards = models.ManyToManyField('Card', db_column='cards', related_name='whish_cards', db_table='WhishlistCard')
 
-    @staticmethod
-    def create_or_update_wishlist_cards(whishlist_cards, user):
-        try:
-            whishlist = Whishlist.get_whishlist_by_user(user)
-            if whishlist is None:
-                whishlist = Whishlist(user_whishlist=user)
-                whishlist.save()
-            whishlist.cards.clear()
-            whishlist_cards = Card.get_cards(whishlist_cards)
-            for card in whishlist_cards:
-                whishlist.cards.add(card)
-
-        except Exception as error:
-            raise (GraphQLError(f"Fail to create or update wishlist"))
-
-    @staticmethod
-    def get_whishlist_by_user(user):
-        try:
-            return Whishlist.objects.get(user_whishlist=user)
-        except Whishlist.DoesNotExist:
-            return None
-
     class Meta:
         db_table = 'Whishlist'
 
@@ -171,27 +149,6 @@ class MyCards(DefaultDate):
                                        related_name='user_cards', blank=True, null=True, db_column='user_cards')
     cards = models.ManyToManyField('Card', db_column='cards', related_name='my_cards', db_table='MyCard')
 
-    @staticmethod
-    def create_or_update_my_cards(whishlist_cards, user):
-        try:
-            my_cards = MyCards.get_my_cards_by_user()(user)
-            if my_cards is None:
-                my_cards = MyCards(user_whishlist=user)
-                my_cards.save()
-            my_cards.cards.clear()
-            whishlist_cards = Card.get_cards(whishlist_cards)
-            for card in whishlist_cards:
-                my_cards.cards.add(card)
-
-        except Exception as error:
-            raise (GraphQLError(f"Fail to create or updte wishlist"))
-
-    @staticmethod
-    def get_my_cards_by_user(user):
-        try:
-            return MyCards.objects.get(user_whishlist=user)
-        except Whishlist.DoesNotExist:
-            return None
 
     class Meta:
         db_table = 'MyCards'
