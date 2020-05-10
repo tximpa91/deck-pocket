@@ -64,7 +64,7 @@ h2==2.6.2
 hpack==3.0.0
 html5lib==1.0.1
 http-ece==1.0.5
-httpie==0.9.9
+httpie==1.0.3
 httplib2==0.17.1
 hyper==0.7.0
 hyperframe==5.1.0
