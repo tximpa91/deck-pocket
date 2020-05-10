@@ -129,7 +129,7 @@ PyYAML==3.13
 query-string==1.0.2
 reportlab==3.5.23
 request==1.0.2
-requests==2.19.1
+requests==2.20.0
 requests-oauthlib==1.0.0
 rsa==4.0
 Rx==1.6.1
