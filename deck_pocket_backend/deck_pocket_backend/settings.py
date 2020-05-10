@@ -13,8 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import firebase_admin
 import logging
-import dj_database_url
-prod_db = dj_database_url.config(conn_max_age=500)
+import django_heroku
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -84,8 +83,6 @@ WSGI_APPLICATION = 'deck_pocket_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {}
-DATABASES['default'].update(prod_db)
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -205,3 +202,4 @@ LOGGING = {
 
 #  Add configuration for static files storage using whitenoise
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+django_heroku.settings(locals())
