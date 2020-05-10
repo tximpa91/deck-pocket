@@ -99,7 +99,7 @@ pluggy==0.13.0
 post==1.0.2
 promise==2.3
 protobuf==3.6.1
-psutil==5.4.6
+psutil==5.6.6
 psycopg2==2.7.6.1
 psycopg2-binary==2.7.5
 public==1.0.3
