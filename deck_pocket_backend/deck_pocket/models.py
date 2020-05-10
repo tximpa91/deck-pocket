@@ -10,7 +10,7 @@ import uuid
 
 
 class DefaultDate(models.Model):
-    created = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(blank=True, null=True, db_column='updated')
 
     class Meta:

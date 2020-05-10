@@ -2,14 +2,19 @@ from django.core.management.base import BaseCommand, CommandError
 from deck_pocket.models import Card
 import traceback
 import json
+import random
+import decimal
+from django.db.models import Q
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
+            fields = [field.name for field in Card._meta.get_fields()
+                      if field.name != 'card_id' and field.name != 'deck_cards'
+                      and field.name != 'whish_cards' and field.name != 'my_cards']
 
-            fields = [field.name for field in Card._meta.get_fields() if field.name != 'card_id']
             try:
                 json_file = open('/Users/luisparada/Downloads/scryfall-all-cards.json', 'r')
                 data = json.load(json_file)
