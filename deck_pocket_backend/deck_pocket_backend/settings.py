@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'oauth2_provider',
     'sslserver',
-    'deck_pocket',
+    'deck_pocket_backend.deck_pocket',
     'graphene_django'
 ]
 
