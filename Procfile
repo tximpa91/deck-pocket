@@ -1,1 +1,1 @@
-gunicorn deck_pocket_backend.wsgi --log-file -
+web: gunicorn deck_pocket_backend.deck_pocket_backend.wsgi
